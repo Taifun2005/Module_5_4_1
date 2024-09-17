@@ -1,3 +1,20 @@
+def is_password_good(password):
+    if len(password) < 8:
+        return False
+    s = password
+    if s.upper() == password:
+        return False
+    s = password
+    if s.lower() == password:
+        return False
+    flag = False
+    for i in range(len(password)):
+        if password[i] in "0123456789":
+            flag = True
+    if flag == False:
+        return False
+    else:
+        return True
 class Database:
     def __init__(self):
         self.data = {}
@@ -15,25 +32,14 @@ class User:
     def __init__(self, username, password, password_confirmation):
         self.username = username
         if password == password_confirmation:
-            # if is_password_good():
-            self.password = password
-    # def is_password_good(password):
-    #     if len(password) < 8:
-    #         return False
-    #     s = password
-    #     if s.upper() == password:
-    #         return False
-    #     s = password
-    #     if s.lower() == password:
-    #         return False
-    #     flag = False
-    #     for i in range(len(password)):
-    #         if password[i] in "0123456789":
-    #             flag = True
-    #     if flag == False:
-    #         return False
-    #     else:
-    #         return True
+            if is_password_good(password):
+                self.password = password
+            else:
+                print('Пароль не отвечает требованиям')
+
+    # объявление функции
+
+
 
 
 
@@ -46,11 +52,16 @@ if __name__ == '__main__':
             login = input('Введите свой логин: ')
             password = input('Введите свой пароль: ')
             if login in database.data:
-                print('OK')
+                if password == database.data[login]:
+                    print(f'Ваш вход выполнен, {login}')
+                    break
+            else:
+                print('Такого пользователя не найдено \nПройдите процедуру регистрации')
         if choice == 2:
             user = User(input('Введите логин: '), password1 := input('Введите пароль: '),
                         password2 := input('Введите подтверждение: '))
             if password1 != password2:
-                exit()
+                print('Пароли не совпадают, попробуйте еще раз')
+                continue
             database.add_user(user.username, user.password)
         print(database.data)
